@@ -1,30 +1,28 @@
 const express = require("express");
 const cors = require("cors");
-const {User} = require("./model/user");
+const { getRegisteration } = require("./controller/registrationController");
+const { getLogin } = require("./controller/LoginController");
+const { getUserList,deleteUser,editUser } = require("./controller/adminController");
 
 const app = express();
 app.use(cors());
+
 app.use(express.json());
 
-// Save user
-app.post("/login", (req, res) => {
-    const { username, password } = req.body;
+app.use(express.urlencoded());
 
-    if (!username || !password) {
-        return res.status(400).json({ message: "All fields required" });
-    }
+app.post("/registration", getRegisteration);
 
-    const newUser = new User(req.body.username, req.body.password).save();
+app.post("/login", getLogin);
 
-    res.json({ message: "Login successful", user: newUser });
-});
+app.get("/users", getUserList );
 
-// Fetch all users
-app.get("/users", (req, res) => {
-    res.json(User.fetchAll());
-});
+app.patch("/users/:id", editUser);
 
-const PORT = 5000;
+app.delete("/users/:id", deleteUser);
+
+const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
-    console.log("Server running on port 5000");
+  console.log(`Server running on http://localhost:${PORT}`);
 });
