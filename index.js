@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { getRegisteration } = require("./controller/registrationController");
-const { getLogin } = require("./controller/LoginController");
+const { getLogin } = require("./controller/loginController");
 const { getUserList,deleteUser,editUser } = require("./controller/adminController");
 
 const app = express();

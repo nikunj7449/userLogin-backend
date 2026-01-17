@@ -20,4 +20,4 @@ exports.getLogin = (req, res) => {
     success: true,
     message: "Login successful"
   });
-};
+}
