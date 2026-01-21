@@ -1,23 +1,52 @@
-const { User } = require("../model/user");
+const User = require("../model/user");
+const jwt = require("jsonwebtoken")
 
-exports.getLogin = (req, res) => {
-  const { username, password } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ message: "All fields required" });
-  }
+exports.getLogin = async (req, res) => {
+  try {
+    const { username, password, role } = req.body;
 
-  const isValid = User.validateLogin(username, password);
+    // Validation
+    if (!username || !password || !role) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required"
+      });
+    }
 
-  if (!isValid) {
-    return res.status(401).json({
+    //Validate login
+    const user = await User.validateLogin(username, password, role);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid username or password or role"
+      });
+    }
+
+    const jwtToken = await jwt.sign(
+      {username,role},
+      "JWT_SECRETE",
+      { expiresIn:"1h" }
+    )
+
+    res.cookie("JWT-Token", jwtToken, {
+    httpOnly: true,      
+    secure: false,       
+    sameSite: "lax",  
+    maxAge: 60 * 60 * 1000 
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Login successful"
+    });
+
+  } catch (error) {
+
+    return res.status(500).json({
       success: false,
-      message: "Invalid username or password"
+      message: "Login failed"
     });
   }
-
-  res.json({
-    success: true,
-    message: "Login successful"
-  });
-}
+};
