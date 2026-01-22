@@ -11,11 +11,10 @@ const userRouter = require("./routes/userRoute");
 const allowRole = require("./middleware/role");
 
 const app = express();
-
 /* ---------- MIDDLEWARE ---------- */
 app.use(cors({
   //origin: "http://localhost:5173",
-  origin: "https://login-user-frontend-qfcj-o0mtr8vn6-nikunjs-projects-5c033a23.vercel.app",
+  origin: "https://login-user-frontend-qfcj-nm69omsfo-nikunjs-projects-5c033a23.vercel.app",
   credentials: true
 }));
 
