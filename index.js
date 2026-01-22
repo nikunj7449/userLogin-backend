@@ -14,7 +14,7 @@ const app = express();
 /* ---------- MIDDLEWARE ---------- */
 app.use(cors({
   //origin: "http://localhost:5173",
-  origin: "https://login-user-frontend-qfcj-nm69omsfo-nikunjs-projects-5c033a23.vercel.app",
+  origin: "https://login-user-frontend-qfcj.vercel.app",
   credentials: true
 }));
 
